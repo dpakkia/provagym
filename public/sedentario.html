@@ -170,7 +170,7 @@
           updateDisplay();
 
           // Aggiornamento dello stato sul server
-          fetch("http://192.168.1.44:3000/status", {
+          fetch("/status", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -225,7 +225,7 @@
 
       // Funzione di polling usata dai client slave per aggiornare lo stato
       function pollStatus() {
-        fetch("http://192.168.1.44:3000/status", { cache: "no-cache" })
+        fetch("/status", { cache: "no-cache" })
           .then((response) => response.json())
           .then((data) => {
             const phaseIndex = phases.findIndex(
@@ -244,7 +244,7 @@
 
       // Recupera opzionalmente lo stato iniziale dal server all'avvio
       function fetchStatusFromServer() {
-        fetch("http://192.168.1.44:3000/status", { cache: "no-cache" })
+        fetch("/status", { cache: "no-cache" })
           .then((response) => response.json())
           .then((data) => {
             const phaseIndex = phases.findIndex(
