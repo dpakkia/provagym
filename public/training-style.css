@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* Stile per i dropdown */
+.dropdown {
+    margin: 10px 0;
+    position: relative;
+    width: 100%;
+}
+
+/* Pulsante del dropdown */
+.dropbtn {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.dropbtn:hover {
+    background-color: #2980b9;
+}
+
+/* Contenuto nascosto inizialmente */
+.dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.3s ease-in-out;
+    background-color: white;
+    padding: 0;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Quando il dropdown è aperto */
+.dropdown.open .dropdown-content {
+    max-height: 400px;
+    padding: 10px;
+}
+
+/* Stile iframe */
+iframe {
+    width: 90%;
+    height: 315px;
+    display: block;
+    margin: 0 auto;
+    border: none;
+}
+
+/* Bottone per tornare indietro */
+.back-btn {
+    display: block;
+    width: 100%;
+    background-color: #e74c3c;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Stile per immagini verticali (A4) */
+.exercise-img {
+    width: auto;
+    max-width: 50%;
+    height: auto;
+    max-height: 90vh;
+    display: block;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer; /* Cambia il cursore per indicare che è cliccabile */
+}
+
+/* Stile per il modal */
+.modal {
+    display: none; /* Nascosto di default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Sfondo scuro trasparente */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenuto del modal (immagine grande) */
+.modal-content {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 5px;
+}
+
+/* Pulsante di chiusura */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+

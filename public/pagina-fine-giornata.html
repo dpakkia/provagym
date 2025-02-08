@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trekking</title>
+        <link rel="stylesheet" href="training-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Allenamento di fine giornata</h1>
+            <h2>Ripeti per 4/5 giri</h2>
+            <div class="dropdown">
+                <button class="dropbtn">Burpees - 30 secondi</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/E-Oc0zjeqWo" title="Esercizio Burpees" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <p> Riposo - 15 secondi</p>
+            <div class="dropdown">
+                <button class="dropbtn">Jump Squat - 30 secondi</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/bv7as8mDXLQ" title="Esercizio Jump Squat" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <p> Riposo - 15 secondi</p>
+            <div class="dropdown">
+                <button class="dropbtn">Climbers - 30 secondi</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/w2iTOneGPdU" title="Esercizio Climbers" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <p> Riposo - 15 secondi</p>
+            <div class="dropdown">
+                <button class="dropbtn">Plank - 30 secondi</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/Is-7PPaBcsM" title="Esercizio Plank" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <p> Riposo - 15 secondi</p>
+            <h2> Stretching finale</h2>
+            <div class="dropdown">
+                <button class="dropbtn">Stretching finale</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/post-workout-mobility-workout.jpg"
+                        alt="stretching-finale"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <button class="back-btn" onclick="history.back()">🔙 Torna indietro</button>
+        </div>
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg" />
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

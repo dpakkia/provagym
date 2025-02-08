@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trekking</title>
+        <link rel="stylesheet" href="training-style.css" />
+        <link rel="stylesheet" href="sport-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Sport</h1>
+            <div class="dropdown">
+                <button class="dropbtn">Riscaldamento</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/quick-warmup-workout.jpg"
+                        alt="riscaldamento-veloce"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn" onclick="toggleFullScreen()">Sport Gallery</button>
+            </div>
+
+            <!-- Contenitore a schermo intero -->
+            <div id="fullscreenContainer" class="fullscreen-container">
+                <button class="close-fullscreen" onclick="closeFullScreen()">✖ Chiudi</button>
+                <div id="contentContainer">Caricamento...</div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Stretching</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/stretched-workout.jpg"
+                        alt="stretching"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            
+            <button class="back-btn" onclick="history.back()">🔙 Torna indietro</button>
+        </div>
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg" />
+        </div>
+        <script src="script.js"></script>
+        <script src="sport-script.js"></script>
+    </body>
+</html>

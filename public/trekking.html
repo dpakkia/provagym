@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trekking</title>
+        <link rel="stylesheet" href="training-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Allenamento Full Body</h1>
+            <div class="dropdown">
+                <button class="dropbtn">Riscaldamento</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/classic-warmup-workout.jpg"
+                        alt="stretching-sotto"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Allenamento</button>
+                <div class="dropdown-content">
+                    <p>Alcune idee:</p>
+                    <ul>
+                        <li>Geocaching</li>
+                        <li>Challenge fotografica</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Stretching</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/farpoint-workout.jpg"
+                        alt="stretching-sotto"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Respirazione</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/breathe-easy-workout.jpg"
+                        alt="stretching-sotto"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <button class="back-btn" onclick="history.back()">🔙 Torna indietro</button>
+        </div>
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg" />
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

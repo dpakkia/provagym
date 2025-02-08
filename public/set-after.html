@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trekking</title>
+        <link rel="stylesheet" href="training-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Allenamento di fine giornata</h1>
+            <h2>Ripeti per 3 giri</h2>
+            <div class="dropdown">
+                <button class="dropbtn">Squats - 20 reps</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/Zqc_lc93hak" title="Esercizio Squats" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Push-ups - 15 secondi</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/v9LABVJzv8A" title="Esercizio Push Ups" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Plank - 1 minuto</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/Is-7PPaBcsM" title="Esercizio Plank" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <h2>Stretching finale</h2>
+            <div class="dropdown">
+                <button class="dropbtn">Stretching</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/reset-and-go-workout.jpg"
+                        alt="stretching-finale"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <button class="back-btn" onclick="history.back()">🔙 Torna indietro</button>
+        </div>
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg" />
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

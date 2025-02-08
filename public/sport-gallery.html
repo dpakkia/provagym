@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sport da provare</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                background-color: #f4f4f4;
+            }
+            .search-container {
+                margin: 20px;
+            }
+            input {
+                padding: 10px;
+                width: 60%;
+                font-size: 16px;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 16px;
+                cursor: pointer;
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                margin: 5px;
+            }
+            /* Galleria come griglia */
+            .gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+                padding: 20px;
+                justify-content: center;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .gallery img {
+                width: 100%;
+                max-height: 200px;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+                cursor: pointer;
+                border-radius: 10px;
+            }
+            .gallery img:hover {
+                transform: scale(1.05);
+            }
+            .grayscale {
+                filter: grayscale(100%);
+            }
+            /* Modal styles */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 90%;
+                max-width: 500px;
+                text-align: center;
+                border-radius: 10px;
+            }
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            textarea {
+                width: 100%;
+                height: 100px;
+                padding: 10px;
+                font-size: 16px;
+                margin-top: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                resize: vertical;
+            }
+            /* Pulsante Torna Indietro */
+            .back-btn {
+                display: block;
+                width: 20%;
+                background-color: #e74c3c;
+                color: white;
+                padding: 12px;
+                font-size: 16px;
+                border: none;
+                border-radius: 5px;
+                text-align: center;
+                cursor: pointer;
+                margin: 20px auto;
+                transition: background-color 0.3s;
+            }
+
+            .back-btn:hover {
+                background-color: #c0392b;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Sport da provare</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Cerca un'immagine..." />
+            <button onclick="searchImage()">Cerca</button>
+        </div>
+
+        <div class="gallery" id="gallery"></div>
+        <!--button class="back-btn" onclick="history.back()">🔙 Torna indietro</button-->
+
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img
+                    id="modalImage"
+                    src=""
+                    style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 5px; cursor: pointer"
+                    title="Clicca per alternare bianco e nero" />
+                <br />
+                <label for="modalNote"><strong>Note:</strong></label>
+                <textarea id="modalNote" placeholder="Inserisci le tue note qui..."></textarea>
+                <br />
+                <button id="saveNoteButton" style="background-color: #2ecc71">Salva Nota</button>
+                <button id="deleteButton" style="background-color: #e74c3c">Elimina Immagine</button>
+            </div>
+        </div>
+
+        <script>
+            const apiKey = "48687247-ce172a1de03b4e0473ea30e8b";
+            const gallery = document.getElementById("gallery");
+            let currentImageIndex = null; // per tracciare l'immagine corrente nel modal
+
+            // Carica immagini salvate all'avvio
+            document.addEventListener("DOMContentLoaded", loadSavedImages);
+
+            function searchImage() {
+                const query = document.getElementById("searchInput").value.trim();
+                if (!query) {
+                    alert("Inserisci un termine di ricerca.");
+                    return;
+                }
+
+                fetch(`https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.hits.length > 0) {
+                            const imageUrl = data.hits[0].webformatURL;
+                            addImageToGallery(imageUrl);
+                        } else {
+                            alert("Nessuna immagine trovata.");
+                        }
+                    })
+                    .catch((error) => console.error("Errore:", error));
+            }
+
+            function addImageToGallery(imageUrl) {
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                // Se l'immagine non è già presente, aggiungila con proprietà note e grayscale
+                if (!images.find((img) => img.url === imageUrl)) {
+                    images.push({ url: imageUrl, note: "", grayscale: false });
+                    localStorage.setItem("savedImages", JSON.stringify(images));
+                    renderGallery(images);
+                }
+            }
+
+            function renderGallery(images) {
+                gallery.innerHTML = "";
+                images.forEach((imgData, index) => {
+                    const img = document.createElement("img");
+                    img.src = imgData.url;
+                    if (imgData.grayscale) {
+                        img.classList.add("grayscale");
+                    }
+                    img.onclick = () => openModal(index);
+                    gallery.appendChild(img);
+                });
+            }
+
+            function loadSavedImages() {
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                renderGallery(images);
+            }
+
+            // Funzioni del modal
+            function openModal(index) {
+                currentImageIndex = index;
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                const imgData = images[index];
+                const modalImage = document.getElementById("modalImage");
+                modalImage.src = imgData.url;
+                // Imposta la classe in base al flag grayscale
+                if (imgData.grayscale) {
+                    modalImage.classList.add("grayscale");
+                } else {
+                    modalImage.classList.remove("grayscale");
+                }
+                // Carica le note salvate
+                document.getElementById("modalNote").value = imgData.note || "";
+                document.getElementById("myModal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("myModal").style.display = "none";
+            }
+
+            // Clic sull'immagine del modal per alternare bianco e nero
+            document.getElementById("modalImage").addEventListener("click", function () {
+                if (currentImageIndex !== null) {
+                    toggleGrayscale(currentImageIndex);
+                }
+            });
+
+            // Salva la nota per l'immagine corrente
+            document.getElementById("saveNoteButton").addEventListener("click", function () {
+                if (currentImageIndex !== null) {
+                    const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                    images[currentImageIndex].note = document.getElementById("modalNote").value;
+                    localStorage.setItem("savedImages", JSON.stringify(images));
+                    alert("Nota salvata!");
+                }
+            });
+
+            // Elimina l'immagine corrente
+            document.getElementById("deleteButton").addEventListener("click", function () {
+                if (currentImageIndex !== null) {
+                    deleteImage(currentImageIndex);
+                    closeModal();
+                }
+            });
+
+            function toggleGrayscale(index) {
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                images[index].grayscale = !images[index].grayscale;
+                localStorage.setItem("savedImages", JSON.stringify(images));
+                // Aggiorna sia la visualizzazione del modal che della galleria
+                updateModalGrayscale();
+                renderGallery(images);
+            }
+
+            // Aggiorna l'effetto del modal in base al flag grayscale
+            function updateModalGrayscale() {
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                const imgData = images[currentImageIndex];
+                const modalImage = document.getElementById("modalImage");
+                if (imgData.grayscale) {
+                    modalImage.classList.add("grayscale");
+                } else {
+                    modalImage.classList.remove("grayscale");
+                }
+            }
+
+            function deleteImage(index) {
+                const images = JSON.parse(localStorage.getItem("savedImages")) || [];
+                images.splice(index, 1);
+                localStorage.setItem("savedImages", JSON.stringify(images));
+                renderGallery(images);
+            }
+            
+            // Chiudi il modal cliccando fuori dalla finestra del contenuto
+window.onclick = function (event) {
+    const modal = document.getElementById("myModal");
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+        </script>
+    </body>
+</html>

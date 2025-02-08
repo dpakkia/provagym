@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Timer Regola 45-10-5 - Contenuto Complesso</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 30px;
+        background-color: #f5f5f5;
+      }
+      #phase {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      #timer {
+        font-size: 64px;
+        margin-bottom: 20px;
+      }
+      #content {
+        font-size: 18px;
+        margin-bottom: 30px;
+        padding: 15px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+      button {
+        font-size: 20px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+        background-color: #4c57af;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      /* Stile per la notifica */
+      #notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4caf50;
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+        z-index: 1000;
+      }
+      #notification.show {
+        opacity: 1;
+      }
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      #bottom-buttons {
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="phase">Fase: Lavoro (45 minuti)</div>
+    <div id="timer">45:00</div>
+    <div id="content">
+      <!-- Contenuto complesso per la fase "Lavoro" -->
+      <h2>Focus e Postura</h2>
+      <p>
+        💼 Durante questa fase, concentrati sul tuo lavoro. <br />
+        Assicurati di mantenere una postura corretta:
+      </p>
+      <ul>
+        <li>🪑 Siediti dritto.</li>
+        <li>👣 Mantieni i piedi ben appoggiati a terra.</li>
+        <li>🖥️ Regola la sedia in modo che il monitor sia all'altezza degli occhi.</li>
+      </ul>
+      <img
+        src="DFW-Spine-Institute-Ergonomic-Infographic-Blog.jpg"
+        alt="Postura Corretta"
+        style="max-width: 100%; border-radius: 5px"
+      />
+    </div>
+    <button id="startStop">Avvia</button>
+
+    <!-- Elemento per la notifica -->
+    <div id="notification"></div>
+
+    <div id="bottom-buttons">
+      <button id="endDayButton">È finita la giornata</button>
+      <button id="backButton">Back</button>
+    </div>
+    <audio id="alertSound" src="ding-dong.wav"></audio>
+    <script>
+      let isControlling = false;
+
+      // Definizione delle fasi con contenuto HTML complesso
+      const phases = [
+        {
+          name: "Lavoro",
+          duration: 45 * 60,
+          content: `
+            <h2>Focus e Postura</h2>
+            <p>💼 Durante questa fase, concentrati sul tuo lavoro. <br> Assicurati di mantenere una postura corretta:</p>
+            <ul>
+              <li>🪑 Siediti dritto.</li>
+              <li>👣 Mantieni i piedi ben appoggiati a terra.</li>
+              <li>🖥️ Regola la sedia in modo che il monitor sia all'altezza degli occhi.</li>
+            </ul>
+            <img src="DFW-Spine-Institute-Ergonomic-Infographic-Blog.jpg" alt="Postura Corretta" style="max-width:100%; border-radius: 5px;">
+          `
+        },
+        {
+          name: "In piedi",
+          duration: 10 * 60,
+          content: `
+            <h2>Alzati in piedi</h2>
+            <p>⏳ È il momento di dare una pausa alla tua schiena. Ecco alcuni suggerimenti:</p>
+            <ul>
+              <li>🚶 Se possibile, lavora in piedi.</li>
+              <li>🏠 Se devi fare qualche lavoretto in casa, è il momento.</li>
+              <li>☕ Se vuoi farti un caffè, è il momento.</li>
+            </ul>
+            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXFvMmVwY21lcDNmMG1ucG43MHZuaHJxOXpjN2VyMm9xbWc5cXR1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2Sq0Wgv8gXX8FLYA/giphy.gif" alt="In Piedi" style="max-width:50%; border-radius: 5px;">
+          `
+        },
+        {
+          name: "Movimento rapido",
+          duration: 5 * 60,
+          content: `
+            <h2>Attività Dinamica</h2>
+            <iframe src="mini-training-sedentario.html" style="border: none;" width="75%" height="800px" title="Mini Training Sedentario"></iframe>
+          `
+        }
+      ];
+
+      let currentPhaseIndex = 0;
+      let timeRemaining = phases[currentPhaseIndex].duration;
+      let timerInterval = null;
+
+      const timerDisplay = document.getElementById("timer");
+      const phaseDisplay = document.getElementById("phase");
+      const contentDisplay = document.getElementById("content");
+      const startStopButton = document.getElementById("startStop");
+
+      function updateDisplay() {
+        let minutes = Math.floor(timeRemaining / 60);
+        let seconds = timeRemaining % 60;
+        timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
+          .toString()
+          .padStart(2, "0")}`;
+        phaseDisplay.textContent = "Fase: " + phases[currentPhaseIndex].name;
+        contentDisplay.innerHTML = phases[currentPhaseIndex].content;
+      }
+
+      function tick() {
+        if (timeRemaining > 0) {
+          timeRemaining--;
+          updateDisplay();
+
+          // Aggiornamento dello stato sul server (se necessario)
+          fetch("http://192.168.1.44:3000/status", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phase: phases[currentPhaseIndex].name, timeRemaining })
+          }).catch((err) =>
+            console.error("Errore aggiornamento server:", err)
+          );
+        } else {
+          stopTimer();
+          document.getElementById("alertSound").play();
+          startStopButton.textContent = "Avvia Prossima Fase";
+        }
+      }
+
+      function startTimer() {
+        if (!timerInterval) {
+          timerInterval = setInterval(tick, 1000);
+          isControlling = true;
+          startStopButton.textContent = "Pausa";
+        }
+      }
+
+      function stopTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          isControlling = false;
+        }
+      }
+
+      startStopButton.addEventListener("click", function () {
+        if (timerInterval) {
+          stopTimer();
+          startStopButton.textContent = "Avvia";
+        } else {
+          startTimer();
+        }
+      });
+
+      // Recupero opzionale dello stato dal server all'avvio
+      function fetchStatusFromServer() {
+        fetch("http://192.168.1.44:3000/status")
+          .then((response) => response.json())
+          .then((data) => {
+            const phaseIndex = phases.findIndex(
+              (phase) => phase.name === data.phase
+            );
+            if (phaseIndex !== -1) {
+              currentPhaseIndex = phaseIndex;
+              timeRemaining = data.timeRemaining;
+              updateDisplay();
+            }
+          })
+          .catch((err) =>
+            console.error("Errore nel recupero dello stato:", err)
+          );
+      }
+
+      window.addEventListener("load", fetchStatusFromServer);
+
+      // Inizializza il display
+      updateDisplay();
+    </script>
+  </body>
+</html>

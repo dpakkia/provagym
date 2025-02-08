@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allenamento Interattivo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Allenamento Interattivo</h1>
+
+        <!-- Pulsante Allenamento Completo -->
+        <button class="main-btn" onclick="toggleMenu('allenamentoMenu')">Allenamento Completo</button>
+        <div id="allenamentoMenu" class="dropdown-menu">
+            <a href="allenamento-a-corpo-libero.html" class="sub-btn">Corpo Libero</a>
+            <a href="trekking.html" class="sub-btn">Trekking</a>
+            <a href="sport.html" class="sub-btn">Sport</a>
+        </div>
+
+        <!-- Pulsante Giorno Ibrido -->
+        <button class="main-btn" onclick="toggleMenu('ibridoMenu')">Giorno Ibrido</button>
+        <div id="ibridoMenu" class="dropdown-menu">
+            <a href="sedentario.html" class="sub-btn">Giornata Sedentaria</a>
+            <a href="set-before.html" class="sub-btn">Giornata sul Set - Mattina</a>
+            <a href="set-after.html" class="sub-btn">Giornata sul Set - Sera</a>
+        </div>
+
+        
+    </div>
+    
+    
+
+</body>
+</html>

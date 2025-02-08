@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Trekking</title>
+        <link rel="stylesheet" href="training-style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>Buongiorno!</h1>
+            <div class="dropdown">
+                <button class="dropbtn">Stretching della sveglia</button>
+                <div class="dropdown-content">
+                    <img
+                        src="https://darebee.com/images/workouts/i-am-up-workout.jpg"
+                        alt="stretching-sveglia"
+                        class="exercise-img"
+                        onclick="openModal(this)" />
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Jumping Jacks - 2 minuti</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/gG2Z1siSvkk" title="Esercizio Jumping Jacks" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Plank - 1 minuto</button>
+                <div class="dropdown-content">
+                    <iframe src="https://www.youtube.com/embed/Is-7PPaBcsM" title="Esercizio Plank" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <button class="back-btn" onclick="history.back()">🔙 Torna indietro</button>
+        </div>
+        <div id="imageModal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImg" />
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
