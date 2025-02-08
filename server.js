@@ -2,16 +2,17 @@ const express = require('express');
 const path = require('path'); // Per gestire i percorsi dei file
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Usa la porta di Vercel
 
 const cors = require('cors');
 
 // Configurazione CORS
 const corsOptions = {
-    origin: 'http://192.168.1.12', // Modifica con l'IP del client che sta tentando di accedere
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
+    origin: "*",  // Permette richieste da qualsiasi dominio
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"]
 };
+
 
 app.use(cors(corsOptions)); // Usa la configurazione CORS specifica
 
@@ -43,6 +44,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(port, '192.168.1.44', () => {
-    console.log(`Server in esecuzione su http://192.168.1.44:${port}`);
+app.listen(port, () => {
+    console.log(`Server in esecuzione sulla porta ${port}`);
 });
