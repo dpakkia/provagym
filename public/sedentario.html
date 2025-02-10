@@ -85,8 +85,7 @@
       <img
         src="DFW-Spine-Institute-Ergonomic-Infographic-Blog.jpg"
         alt="Postura Corretta"
-        style="max-width: 100%; border-radius: 5px"
-      />
+        style="max-width: 100%; border-radius: 5px" />
     </div>
     <button id="startStop">Avvia</button>
     <div id="notification"></div>
@@ -96,175 +95,183 @@
     </div>
     <audio id="alertSound" src="ding-dong.wav"></audio>
     <script>
-      /********************************************************************
-       * Gestione del ruolo master/slave tramite query string.
-       * Esempio: http://tuosito/?role=master oppure http://tuosito/?role=slave
-       ********************************************************************/
-      const urlParams = new URLSearchParams(window.location.search);
-      const role = urlParams.get("role") || "slave"; // default: slave
-      const isMaster = role === "master";
+                  /********************************************************************
+                   * Gestione del ruolo master/slave tramite query string.
+                   * Esempio: http://tuosito/?role=master oppure http://tuosito/?role=slave
+                   ********************************************************************/
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const role = urlParams.get("role") || "slave"; // default: slave
+                  const isMaster = role === "master";
 
-      // Definizione delle fasi con contenuto HTML complesso
-      const phases = [
-        {
-          name: "Lavoro",
-          duration: 45 * 60,
-          content: `
-            <h2>Focus e Postura</h2>
-            <p>💼 Durante questa fase, concentrati sul tuo lavoro. <br> Assicurati di mantenere una postura corretta:</p>
-            <ul>
-              <li>🪑 Siediti dritto.</li>
-              <li>👣 Mantieni i piedi ben appoggiati a terra.</li>
-              <li>🖥️ Regola la sedia in modo che il monitor sia all'altezza degli occhi.</li>
-            </ul>
-            <img src="DFW-Spine-Institute-Ergonomic-Infographic-Blog.jpg" alt="Postura Corretta" style="max-width:100%; border-radius: 5px;">
-          `
-        },
-        {
-          name: "In piedi",
-          duration: 10 * 60,
-          content: `
-            <h2>Alzati in piedi</h2>
-            <p>⏳ È il momento di dare una pausa alla tua schiena. Ecco alcuni suggerimenti:</p>
-            <ul>
-              <li>🚶 Se possibile, lavora in piedi.</li>
-              <li>🏠 Se devi fare qualche lavoretto in casa, è il momento.</li>
-              <li>☕ Se vuoi farti un caffè, è il momento.</li>
-            </ul>
-            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXFvMmVwY21lcDNmMG1ucG43MHZuaHJxOXpjN2VyMm9xbWc5cXR1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2Sq0Wgv8gXX8FLYA/giphy.gif" alt="In Piedi" style="max-width:50%; border-radius: 5px;">
-          `
-        },
-        {
-          name: "Movimento rapido",
-          duration: 5 * 60,
-          content: `
-            <h2>Attività Dinamica</h2>
-            <iframe src="mini-training-sedentario.html" style="border: none;" width="75%" height="800px" title="Mini Training Sedentario"></iframe>
-          `
-        }
-      ];
+                  // Definizione delle fasi con contenuto HTML complesso
+                  const phases = [
+                    {
+                      name: "Lavoro",
+                      duration: 45 * 60,
+                      content: `
+                        <h2>Focus e Postura</h2>
+                        <p>💼 Durante questa fase, concentrati sul tuo lavoro. <br> Assicurati di mantenere una postura corretta:</p>
+                        <ul>
+                          <li>🪑 Siediti dritto.</li>
+                          <li>👣 Mantieni i piedi ben appoggiati a terra.</li>
+                          <li>🖥️ Regola la sedia in modo che il monitor sia all'altezza degli occhi.</li>
+                        </ul>
+                        <img src="DFW-Spine-Institute-Ergonomic-Infographic-Blog.jpg" alt="Postura Corretta" style="max-width:100%; border-radius: 5px;">
+                      `
+                    },
+                    {
+                      name: "In piedi",
+                      duration: 10 * 60,
+                      content: `
+                        <h2>Alzati in piedi</h2>
+                        <p>⏳ È il momento di dare una pausa alla tua schiena. Ecco alcuni suggerimenti:</p>
+                        <ul>
+                          <li>🚶 Se possibile, lavora in piedi.</li>
+                          <li>🏠 Se devi fare qualche lavoretto in casa, è il momento.</li>
+                          <li>☕ Se vuoi farti un caffè, è il momento.</li>
+                        </ul>
+                        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNXFvMmVwY21lcDNmMG1ucG43MHZuaHJxOXpjN2VyMm9xbWc5cXR1dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2Sq0Wgv8gXX8FLYA/giphy.gif" alt="In Piedi" style="max-width:50%; border-radius: 5px;">
+                      `
+                    },
+                    {
+                      name: "Movimento rapido",
+                      duration: 5 * 60,
+                      content: `
+                        <h2>Attività Dinamica</h2>
+                        <iframe src="mini-training-sedentario.html" style="border: none;" width="75%" height="800px" title="Mini Training Sedentario"></iframe>
+                      `
+                    }
+                  ];
 
-      let currentPhaseIndex = 0;
-      let timeRemaining = phases[currentPhaseIndex].duration;
-      let timerInterval = null;
+                  let currentPhaseIndex = 0;
+                  let timeRemaining = phases[currentPhaseIndex].duration;
+                  let timerInterval = null;
 
-      const timerDisplay = document.getElementById("timer");
-      const phaseDisplay = document.getElementById("phase");
-      const contentDisplay = document.getElementById("content");
-      const startStopButton = document.getElementById("startStop");
+                  const timerDisplay = document.getElementById("timer");
+                  const phaseDisplay = document.getElementById("phase");
+                  const contentDisplay = document.getElementById("content");
+                  const startStopButton = document.getElementById("startStop");
 
-      function updateDisplay() {
-        const minutes = Math.floor(timeRemaining / 60);
-        const seconds = timeRemaining % 60;
-        timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds
-          .toString()
-          .padStart(2, "0")}`;
-        phaseDisplay.textContent = "Fase: " + phases[currentPhaseIndex].name;
-        contentDisplay.innerHTML = phases[currentPhaseIndex].content;
-      }
+                  function updateDisplay() {
+                    const minutes = Math.floor(timeRemaining / 60);
+                    const seconds = timeRemaining % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+                    phaseDisplay.textContent = "Fase: " + phases[currentPhaseIndex].name;
+                    contentDisplay.innerHTML = phases[currentPhaseIndex].content;
+                  }
 
-      // Funzione tick per il client master: decrementa il timer e aggiorna il server
-      function tick() {
-        if (timeRemaining > 0) {
-          timeRemaining--;
-          updateDisplay();
+                  function tick() {
+              if (timeRemaining > 0) {
+                timeRemaining--;
+                updateDisplay();
 
-          // Aggiornamento dello stato sul server
-          fetch("/status", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              phase: phases[currentPhaseIndex].name,
-              timeRemaining
-            })
-          }).catch((err) =>
-            console.error("Errore aggiornamento server:", err)
-          );
-        } else {
-          stopTimer();
-          document.getElementById("alertSound").play();
-          startStopButton.textContent = "Avvia Prossima Fase";
-        }
-      }
+                if (isMaster) {
+              startStopButton.addEventListener("click", function () {
+                if (timerInterval) {
+                  stopTimer();
+                  startStopButton.textContent = "Avvia";
+                } else {
+                  startTimer();
+                  startStopButton.textContent = "Pausa";
+                  startStopButton.disabled = true; // Disabilita il pulsante subito per evitare problemi
 
-      function startTimer() {
-        if (!timerInterval) {
-          timerInterval = setInterval(tick, 1000);
-          startStopButton.textContent = "Pausa";
-        }
-      }
+                  // Il Master aggiorna il server con la nuova fase
+                  fetch("/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      phase: phases[currentPhaseIndex].name,
+                      timeRemaining
+                    })
+                  }).catch((err) => console.error("Errore aggiornamento server:", err));
+                }
+              });
+            } else {
+              // Nasconde il pulsante per gli Slave
+              startStopButton.style.display = "none";
+            }
 
-      function stopTimer() {
-        if (timerInterval) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-        }
-      }
 
-      /***********************************************
-       * Logica diversa per Master e Slave
-       ***********************************************/
-      if (isMaster) {
-        // Il client master controlla il timer
-        startStopButton.addEventListener("click", function () {
-          if (timerInterval) {
-            stopTimer();
-            startStopButton.textContent = "Avvia";
-          } else {
-            startTimer();
-          }
-        });
-      } else {
-        // Client slave: disabilitiamo il pulsante e avviamo il polling per aggiornare lo stato
-        startStopButton.disabled = true;
-        startStopButton.style.display = "none";
 
-        // Polling ogni secondo per recuperare lo stato dal server (disabilitiamo il caching)
-        setInterval(pollStatus, 1000);
-      }
+                  function startTimer() {
+                    if (!timerInterval) {
+                      timerInterval = setInterval(tick, 1000);
+                      startStopButton.textContent = "Pausa";
+                    }
+                  }
 
-      // Funzione di polling usata dai client slave per aggiornare lo stato
-      function pollStatus() {
+                  function stopTimer() {
+                    if (timerInterval) {
+                      clearInterval(timerInterval);
+                      timerInterval = null;
+                    }
+                  }
+
+                  if (isMaster) {
+                    startStopButton.addEventListener("click", function () {
+                      if (timerInterval) {
+                        stopTimer();
+                        startStopButton.textContent = "Avvia";
+                      } else {
+                        startTimer();
+                        startStopButton.textContent = "Pausa";
+                        startStopButton.disabled = true; // Il pulsante viene disabilitato subito dopo l’avvio
+
+                        // Il Master aggiorna il server quando inizia una nuova fase
+                        fetch("/status", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({
+                            phase: phases[currentPhaseIndex].name,
+                            timeRemaining
+                          })
+                        }).catch((err) => console.error("Errore aggiornamento server:", err));
+                      }
+                    });
+                  } else {
+                    // Il pulsante viene nascosto per gli Slave
+                    startStopButton.style.display = "none";
+                  }
+
+                  function pollStatus() {
         fetch("/status", { cache: "no-cache" })
           .then((response) => response.json())
           .then((data) => {
-            const phaseIndex = phases.findIndex(
-              (phase) => phase.name === data.phase
-            );
-            if (phaseIndex !== -1) {
+            const phaseIndex = phases.findIndex((phase) => phase.name === data.phase);
+            if (phaseIndex !== -1 && (currentPhaseIndex !== phaseIndex || timeRemaining !== data.timeRemaining)) {
+              // Solo se lo stato è diverso, aggiorniamo per evitare aggiornamenti ridondanti
               currentPhaseIndex = phaseIndex;
               timeRemaining = data.timeRemaining;
               updateDisplay();
             }
           })
-          .catch((err) =>
-            console.error("Errore nel polling dello stato:", err)
-          );
+          .catch((err) => console.error("Errore nel polling dello stato:", err));
       }
 
-      // Recupera opzionalmente lo stato iniziale dal server all'avvio
-      function fetchStatusFromServer() {
-        fetch("/status", { cache: "no-cache" })
-          .then((response) => response.json())
-          .then((data) => {
-            const phaseIndex = phases.findIndex(
-              (phase) => phase.name === data.phase
-            );
-            if (phaseIndex !== -1) {
-              currentPhaseIndex = phaseIndex;
-              timeRemaining = data.timeRemaining;
-              updateDisplay();
-            }
-          })
-          .catch((err) =>
-            console.error("Errore nel recupero dello stato:", err)
-          );
-      }
 
-      window.addEventListener("load", fetchStatusFromServer);
+                  // Recupera opzionalmente lo stato iniziale dal server all'avvio
+                  function fetchStatusFromServer() {
+                    fetch("/status", { cache: "no-cache" })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        const phaseIndex = phases.findIndex((phase) => phase.name === data.phase);
+                        if (phaseIndex !== -1) {
+                          currentPhaseIndex = phaseIndex;
+                          timeRemaining = data.timeRemaining;
+                          updateDisplay();
+                        }
+                      })
+                      .catch((err) => console.error("Errore nel recupero dello stato:", err));
+                  }
 
-      // Inizializza il display
-      updateDisplay();
+                  if (!isMaster) {
+                    setInterval(pollStatus, 1000); // Esegue il polling ogni secondo
+                  }
+
+                  window.addEventListener("load", fetchStatusFromServer);
+
+                  // Inizializza il display
+                  updateDisplay();
     </script>
   </body>
 </html>
